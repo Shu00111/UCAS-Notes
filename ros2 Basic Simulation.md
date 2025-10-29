@@ -72,7 +72,7 @@ myRobot/                ← 你的工作空间 (workspace)
 └── log/                ← 日志文件
 ```
 
-### 解释
+#### 解释
 
 ```bash
 ros2 pkg create mybot_description --build-type ament_python
@@ -117,7 +117,7 @@ gedit six_arm.urdf
 - 通常命名为机器人模型名，比如 “six_arm” 表示一个六关节机械臂。
 - .urdf 文件**描述整个机械臂的结构**：基座、连杆、关节、尺寸、坐标关系。
 
-####  URDF（Unified Robot Description Format）
+###  URDF（Unified Robot Description Format）
 
 six_arm.urdf 文件，完整描述了一个六自由度机械臂的物理结构。
 
@@ -343,106 +343,6 @@ six_arm.urdf 文件，完整描述了一个六自由度机械臂的物理结构�
         <child link="base_link"/>
     </joint>
  
-    <!-- <gazebo reference="base_link">
-        <material>Gazebo/Black</material>
-        <gravity>true</gravity>
-        <selfCollide>false</selfCollide>
-    </gazebo>
-    <gazebo reference="link1">
-        <material>Gazebo/Gray</material>
-        <selfCollide>false</selfCollide>
-    </gazebo>
-    <gazebo reference="link2">
-        <material>Gazebo/Red</material>
-        <selfCollide>false</selfCollide>
-    </gazebo>
-    <gazebo reference="link3">
-        <material>Gazebo/Blue</material>
-    </gazebo>
-    <gazebo reference="link4">
-        <material>Gazebo/Green</material>
-    </gazebo>
-    <gazebo reference="link5">
-        <material>Gazebo/Yellow</material>
-    </gazebo>
-    <gazebo reference="link6">
-        <material>Gazebo/Orange</material>
-    </gazebo> -->
- 
-    <!-- 在运行demo.launch.py时，需要注释这个ros2_control节点，因为它使用了xxx.ros2_control.xacro来生成了ros2_control节点-->
-    <!-- <ros2_control name="GazeboSystem" type="system">
-        <hardware>
-            <plugin>gazebo_ros2_control/GazeboSystem</plugin>
-        </hardware>
-        <joint name="joint1">
-            <command_interface name="position">
-                <param name="min">-1</param>
-                <param name="max">1</param>
-            </command_interface>
-            <state_interface name="position">
-                <param name="initial_value">0.0</param>
-            </state_interface>
-            <state_interface name="velocity"/>
-        </joint>
-        <joint name="joint2">
-            <command_interface name="position">
-                <param name="min">-1</param>
-                <param name="max">1</param>
-            </command_interface>
-            <state_interface name="position">
-                <param name="initial_value">0.0</param>
-            </state_interface>
-            <state_interface name="velocity"/>
-        </joint>
-        <joint name="joint3">
-            <command_interface name="position">
-                <param name="min">-1</param>
-                <param name="max">1</param>
-            </command_interface>
-            <state_interface name="position">
-                <param name="initial_value">0.0</param>
-            </state_interface>
-            <state_interface name="velocity"/>
-        </joint>
-        <joint name="joint4">
-            <command_interface name="position">
-                <param name="min">-1</param>
-                <param name="max">1</param>
-            </command_interface>
-            <state_interface name="position">
-                <param name="initial_value">0.0</param>
-            </state_interface>
-            <state_interface name="velocity"/>
-        </joint>
-        <joint name="joint5">
-            <command_interface name="position">
-                <param name="min">-1</param>
-                <param name="max">1</param>
-            </command_interface>
-            <state_interface name="position">
-                <param name="initial_value">0.0</param>
-            </state_interface>
-            <state_interface name="velocity"/>
-        </joint>
-        <joint name="joint6">
-            <command_interface name="position">
-                <param name="min">-1</param>
-                <param name="max">1</param>
-            </command_interface>
-            <state_interface name="position">
-                <param name="initial_value">0.0</param>
-            </state_interface>
-            <state_interface name="velocity"/>
-        </joint>
-    </ros2_control> -->
- 
-    <!-- <gazebo>
-        <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
-            <parameters>$(find mybot)/config/ros2_controllers.yaml</parameters>
-            <robot_param_node>robot_state_publisher</robot_param_node>
-        </plugin>
-    </gazebo> -->
- 
 </robot>
 ```
 
@@ -463,14 +363,148 @@ URDF 是 ROS 中用于描述机器人的一种 XML 格式文件，全称 Unified
 
 1. 文件整体结构
    ```xml
-  <?xml version="1.0"?>
-  <robot name="six_arm">
-     ...
-  </robot>
+    <?xml version="1.0"?>
+    <robot name="six_arm">
+       ...
+    </robot>
    ```
-   <?xml version="1.0"?>：声明这是一个 XML 文件；
-
-  <robot name="six_arm">：定义机器人名称为 “six_arm”；
-  所有 link、joint 都在这个 <robot> 标签里。
+   - <?xml version="1.0"?>：声明这是一个 XML 文件；
+   - <robot name="six_arm">：定义机器人名称为 “six_arm”；
+   - 所有 link、joint 都在这个 <robot> 标签里。
 
 2. 机器人部件结构
+  机械臂一般由：
+  - 一个底座（base_link）
+  - 六个连杆（link1 ~ link6）
+  - 六个旋转关节（joint1 ~ joint6）
+  - 一个固定关节（fixed）：把底座固定在世界坐标上。
+
+  ```xml
+    <!-- Base link -->
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="0.1 0.1 0.1"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0 0 0.05"/>
+            <material name="blue">
+                <color rgba="0 0 1.0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.1 0.1 0.1"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0 0 0.05"/>
+        </collision>
+        <inertial>
+            <mass value="10"/>
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+        </inertial>
+    </link>
+  ```
+
+  - visual：视觉显示用（在 RViz 或 Gazebo 中看到的形状与颜色）
+  - collision：碰撞体积（Gazebo 物理引擎计算碰撞时使用）
+  - inertial：惯性参数（质量和惯性矩，用于动力学计算）
+
+  ```xml
+    <geometry><box size="0.1 0.1 0.1"/></geometry>
+  ```
+  → 表示底座是一个 10cm (0.1m) 的立方体。
+
+  ```xml
+    <material name="blue"><color rgba="0 0 1.0 1"/></material>
+  ```
+  → RGBA = 红绿蓝透明度 = 蓝色。
+
+  ```xml
+    <collision>
+        <geometry>
+            <box size="0.1 0.1 0.1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0.05"/>
+    </collision>
+  ```
+  | 标签                   | 含义                               |
+  | -------------------- | -------------------------------- |
+  | `<collision>`        | 定义“碰撞几何体”（用于物理计算，不用于视觉显示）        |
+  | `<geometry>`         | 几何形状，这里是一个立方体（box）               |
+  | `size="0.1 0.1 0.1"` | 立方体的长、宽、高，单位是 **米**（0.1m = 10cm） |
+  | `<origin>`           | 定义这个几何体相对于 link 坐标系的偏移和旋转        |
+  | `xyz="0 0 0.05"`     | 表示这个方块中心在 Z 轴方向上抬高 5cm           |
+  | `rpy="0 0 0"`        | 表示没有旋转（roll、pitch、yaw 都为 0）      |
+
+  ```xml
+    <inertial>
+        <mass value="10"/>
+        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+    </inertial>
+  ```
+  | 标签                   | 含义                          |
+  | -------------------- | --------------------------- |
+  | `<mass value="10"/>` | 质量为 10 kg                   |
+  | `<inertia>`          | 惯性张量（inertia tensor），描述转动惯量 |
+  | `ixx, iyy, izz`      | 分别是绕 X/Y/Z 轴的转动惯量           |
+  | `ixy, ixz, iyz`      | 是“耦合项”，描述不同轴之间的惯性交叉影响       |
+
+  - 惯性矩阵是一个 3x3 对称矩阵，用来描述物体对旋转的“抵抗能力”。
+  - 这里都写成了 0，意味着这是个简化模型（方便入门，不考虑真实物理转动效果）。
+  - 实际中，惯性矩一般用工具（如 SolidWorks、URDF inertia calculator）计算得到。
+
+  ```xml
+    <!-- Link 1 -->
+    <link name="link1">
+        <visual>
+            <geometry>
+                <cylinder length="0.1" radius="0.03"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0 0 0.05"/>
+            <material name="green">
+                <color rgba="0 0.8 0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder length="0.1" radius="0.03"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0 0 0.05"/>
+        </collision>
+        <inertial>
+            <mass value="0.2"/>
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+        </inertial>
+    </link>
+  ```
+  - 机械臂的第一节；
+  - 形状是圆柱体；
+  - 颜色为绿色；
+  - 长度 10cm，半径 3cm；物理碰撞部分与visual相同
+  - origin xyz="0 0 0.05" 表示圆柱体从底部偏移 5cm，这样几何中心就对齐了。
+  - link 的质量（mass）是 0.2 千克（也就是 200 克）。
+
+  ```xml
+    <!-- Joint 1: rotation around X-axis -->
+    <joint name="joint1" type="continuous">
+        <parent link="base_link"/>
+        <child link="link1"/>
+        <axis xyz="0 0 1"/>
+        <origin xyz="0 0 0.1" rpy="0 0 0"/>
+    </joint>
+  ```
+  - type="continuous" 表示旋转关节（可无限转动）；
+  - parent 和 child 表示这个关节连接谁和谁；
+  - axis xyz="0 0 1" 表示围绕 Z 轴旋转；
+  - origin xyz="0 0 0.1" 表示关节在父坐标系中的位置（即底座顶端）。
+
+  **同理，link2-link6,joint2-joint6。六个关节分别让机械臂能绕不同轴旋转（Z、X、Y交替），形成一个灵活的六自由度结构。**
+
+  ```xml
+    <link name="world"/>
+    <joint name="fixed" type="fixed">
+        <parent link="world"/>
+        <child link="base_link"/>
+    </joint>
+  ```
+  固定到世界坐标,让 Gazebo/RViz 知道：“这个机械臂不是漂浮在空中，而是固定在地面（世界坐标）上。”
+
