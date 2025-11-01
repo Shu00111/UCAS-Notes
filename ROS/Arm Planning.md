@@ -768,7 +768,7 @@ colcon build 会扫描 src/ 下的包并构建（Python 包基本是把脚本安
 --symlink-install 让编辑的源文件即时生效（适合开发阶段）。
 
 The output is shown below:
-![build outcome](figures/colcon build.png)
+![build outcome](https://github.com/Shu00111/UCAS-Notes/blob/robotic-arm/figures/colcon%20build.png)
 
 构建完成后，**一定要 source 环境**：
 ```bash
@@ -789,7 +789,7 @@ source ~/ros2_ws/install/setup.bash
 ros2 launch robot_description display.launch.py
 ```
 The output is shown below:
-![URDF outcome](figures/urdf.png)
+![URDF outcome](https://github.com/Shu00111/UCAS-Notes/blob/robotic-arm/figures/urdf.png)
 
 打开 RViz2（另一个终端或同一终端新标签）：
 ```bash
@@ -800,7 +800,7 @@ rviz2
 在左侧「Displays」里点击「Add」→ 选择 RobotModel，Description Topic选择robot_description，左上Fixed Frame选择base_link，显示模型。
 
 The output is shown below:
-![RViz outcome](figures/rviz initial.png)
+![RViz outcome](https://github.com/Shu00111/UCAS-Notes/blob/robotic-arm/figures/rviz%20initial.png)
 
 
 ### Terminal B: *fake_controller* to show publish joint_states
@@ -813,7 +813,7 @@ ros2 run arm_planner fake_controller
 fake_controller 启动后会等待接收 JointTrajectory（目前没收到所以不会发布 joint_states）。但当收到 trajectory 后会发布 joint_states。
 
 After completing *Terminal D* (arm_target is sent). The output is shown below:
-![fake_controller outcome](figures/fake_controller .png)
+![fake_controller outcome](https://github.com/Shu00111/UCAS-Notes/blob/robotic-arm/figures/fake_controller%20.png)
 
 ### Terminal C: *joint_planner* to plan the trajectory
 
@@ -825,7 +825,7 @@ ros2 run arm_planner joint_planner
 joint_planner 等待 /joint_states（当前）以及 /arm_target（目标）。因为现在还没 /arm_target，可以手动发送目标。
 
 After completing *Terminal D* (arm_target is sent). The output is shown below:
-![joint_planner outcome](figures/joint_planner .png)
+![joint_planner outcome](https://github.com/Shu00111/UCAS-Notes/blob/robotic-arm/figures/joint_planner%20.png)
 
 ### Terminal D: *send_goal_example* to simulate the target sending process
 
@@ -837,9 +837,10 @@ ros2 run arm_planner send_goal_example
 这会把 /arm_target 发出；joint_planner 会收到并发布 JointTrajectory 到 /arm_controller/command（默认），而 fake_controller 订阅该 topic（我们在 fake_controller 中设置为 /arm_controller/command），收到后将发布最终 /joint_states，这样 robot_state_publisher 就能看到 joint angles 并发布 TF，RViz 将显示机器人关节的新位姿。
 
 The output is shown below:
-![arm_target outcome](figures/send_goal_example .png)
 
-![RViz planning shows](figures/rviz control.png)
+![send_goal_example outcome](https://github.com/Shu00111/UCAS-Notes/blob/robotic-arm/figures/send_goal_example%20.png)
+
+![outcome](https://github.com/Shu00111/UCAS-Notes/blob/robotic-arm/figures/rviz%20control.png)
 
 ### Verification
 
