@@ -1,12 +1,15 @@
-# Arm Planning-ros2+rviz+gazebo
+# 😏 Arm Planning 😏
+
+*ubuntu22.04+ros2+rviz(no need for gazebo and moveit)*
+
+**🎃 Happy Halloween! 👻**
 
 ## Create the workspace
 
 ```bash
-# 设定工作目录（你可以改名字）
+# Create the workspace
 export ROS2_WS=~/ros2_ws
 
-# 创建工作空间和 src
 mkdir -p $ROS2_WS/src
 cd $ROS2_WS
 ```
@@ -20,13 +23,11 @@ ros2 pkg create --build-type ament_python robot_description
 
 In this package, firstly, we design a 6-DOF robotic arm.
 ```bash
-# 进入 robot_description 包目录
 cd $ROS2_WS/src/robot_description
 
-# 创建 urdf 目录
+# Create urdf 
 mkdir -p urdf
 
-# 使用编辑器创建文件
 gedit urdf/simple_arm.urdf
 ```
 
@@ -766,8 +767,8 @@ colcon build 会扫描 src/ 下的包并构建（Python 包基本是把脚本安
 
 --symlink-install 让编辑的源文件即时生效（适合开发阶段）。
 
-The output shows as below:
-
+The output is shown below:
+![build outcome](figures/colcon build.png)
 
 构建完成后，**一定要 source 环境**：
 ```bash
@@ -787,6 +788,8 @@ source ~/ros2_ws/install/setup.bash
 # 启动 URDF 的 launch（它会运行 robot_state_publisher）
 ros2 launch robot_description display.launch.py
 ```
+The output is shown below:
+![URDF outcome](figures/urdf.png)
 
 打开 RViz2（另一个终端或同一终端新标签）：
 ```bash
@@ -794,11 +797,10 @@ rviz2
 ```
 在 RViz 中：
 
-在左侧「Displays」里点击「Add」→ 选择「TF」来显示坐标系。
+在左侧「Displays」里点击「Add」→ 选择 RobotModel，Description Topic选择robot_description，左上Fixed Frame选择base_link，显示模型。
 
-也可以选择 RobotModel，如果 URDF 里有可视化元素会显示模型（简单 URDF 可能只有 frames）。
-
-现在如果你看不到 TF，说明 /joint_states 还没发布（这是正常的，下一步会发布）。
+The output is shown below:
+![RViz outcome](figures/rviz initial.png)
 
 
 ### Terminal B: *fake_controller* to show publish joint_states
@@ -810,6 +812,8 @@ ros2 run arm_planner fake_controller
 
 fake_controller 启动后会等待接收 JointTrajectory（目前没收到所以不会发布 joint_states）。但当收到 trajectory 后会发布 joint_states。
 
+After completing *Terminal D* (arm_target is sent). The output is shown below:
+![fake_controller outcome](figures/fake_controller .png)
 
 ### Terminal C: *joint_planner* to plan the trajectory
 
@@ -820,6 +824,9 @@ ros2 run arm_planner joint_planner
 
 joint_planner 等待 /joint_states（当前）以及 /arm_target（目标）。因为现在还没 /arm_target，可以手动发送目标。
 
+After completing *Terminal D* (arm_target is sent). The output is shown below:
+![joint_planner outcome](figures/joint_planner .png)
+
 ### Terminal D: *send_goal_example* to simulate the target sending process
 
 ```bash
@@ -828,6 +835,11 @@ ros2 run arm_planner send_goal_example
 ```
 
 这会把 /arm_target 发出；joint_planner 会收到并发布 JointTrajectory 到 /arm_controller/command（默认），而 fake_controller 订阅该 topic（我们在 fake_controller 中设置为 /arm_controller/command），收到后将发布最终 /joint_states，这样 robot_state_publisher 就能看到 joint angles 并发布 TF，RViz 将显示机器人关节的新位姿。
+
+The output is shown below:
+![arm_target outcome](figures/send_goal_example .png)
+
+![RViz planning shows](figures/rviz control.png)
 
 ### Verification
 
@@ -867,6 +879,7 @@ ros2 node list
 
 Outcome shows like this:
 ```bash
+
 /fake_controller
 /joint_planner
 /joint_state_publisher_gui
@@ -874,3 +887,11 @@ Outcome shows like this:
 /rviz2
 /transform_listener_impl_5def7e8b8080
 ```
+
+**🎉 Conclugration!! 🎉**
+
+## Conclusion
+
+This is created for learning the basic operation of ROS2. In order to understand the architecture of ROS2 from the grassroots level, this project was completed with the ros2 and RViz. Specifically, we skip the Moveit to deeply understand how to plan. We provided a detailed explanation of each step and the purpose of the code. Then I'm going to add the gazebo to further improve this project.
+
+**😊 Have Fun. 😊**
