@@ -34,77 +34,165 @@ Copy the code below *simple_arm.urdf* and save the file.
 ```xml
 <?xml version="1.0"?>
 <robot name="simple_arm">
-  <!-- base link -->
-  <link name="base_link" />
-  <!-- chain of 6 revolute joints and links -->
-  <!-- link1 -->
-  <link name="link1"/>
+
+  <!-- ===================== 材质定义 ===================== -->
+  <material name="gray">
+    <color rgba="0.6 0.6 0.6 1.0"/>
+  </material>
+
+  <!-- ===================== base_link ===================== -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.08 0.08 0.1"/>
+      </geometry>
+      <origin xyz="0 0 -0.05" rpy="0 0 0"/>
+      <material name="gray"/>
+    </visual>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <!-- ===================== link1 ===================== -->
+  <link name="link1">
+    <visual>
+      <geometry>
+        <cylinder length="0.2" radius="0.03"/>
+      </geometry>
+      <origin xyz="0 0 0.1" rpy="0 0 0"/>
+      <material name="gray"/>
+    </visual>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
   <joint name="joint1" type="revolute">
     <parent link="base_link"/>
     <child link="link1"/>
-    <origin xyz="0 0 0.1" rpy="0 0 0"/>
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <limit lower="-3.14" upper="3.14" effort="10" velocity="2.0"/>
+    <limit lower="-3.14" upper="3.14" effort="5" velocity="2.0"/>
   </joint>
 
-  <link name="link2"/>
+  <!-- ===================== link2 ===================== -->
+  <link name="link2">
+    <visual>
+      <geometry>
+        <cylinder length="0.2" radius="0.025"/>
+      </geometry>
+      <origin xyz="0 0 0.1" rpy="0 0 0"/>
+      <material name="gray"/>
+    </visual>
+    <inertial>
+      <mass value="0.4"/>
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
   <joint name="joint2" type="revolute">
     <parent link="link1"/>
     <child link="link2"/>
     <origin xyz="0 0 0.2" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
-    <limit lower="-3.14" upper="3.14" effort="10" velocity="2.0"/>
+    <limit lower="-3.14" upper="3.14" effort="5" velocity="2.0"/>
   </joint>
 
-  <link name="link3"/>
+  <!-- ===================== link3 ===================== -->
+  <link name="link3">
+    <visual>
+      <geometry>
+        <cylinder length="0.2" radius="0.025"/>
+      </geometry>
+      <origin xyz="0 0 0.1" rpy="0 0 0"/>
+      <material name="gray"/>
+    </visual>
+    <inertial>
+      <mass value="0.3"/>
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
   <joint name="joint3" type="revolute">
     <parent link="link2"/>
     <child link="link3"/>
     <origin xyz="0 0 0.2" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
-    <limit lower="-3.14" upper="3.14" effort="10" velocity="2.0"/>
+    <limit lower="-3.14" upper="3.14" effort="5" velocity="2.0"/>
   </joint>
 
-  <link name="link4"/>
+  <!-- ===================== link4 ===================== -->
+  <link name="link4">
+    <visual>
+      <geometry>
+        <cylinder length="0.15" radius="0.02"/>
+      </geometry>
+      <origin xyz="0 0 0.075" rpy="0 0 0"/>
+      <material name="gray"/>
+    </visual>
+    <inertial>
+      <mass value="0.25"/>
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
   <joint name="joint4" type="revolute">
     <parent link="link3"/>
     <child link="link4"/>
     <origin xyz="0 0 0.15" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
-    <limit lower="-3.14" upper="3.14" effort="10" velocity="2.0"/>
+    <limit lower="-3.14" upper="3.14" effort="5" velocity="2.0"/>
   </joint>
 
-  <link name="link5"/>
+  <!-- ===================== link5 ===================== -->
+  <link name="link5">
+    <visual>
+      <geometry>
+        <cylinder length="0.12" radius="0.02"/>
+      </geometry>
+      <origin xyz="0 0 0.06" rpy="0 0 0"/>
+      <material name="gray"/>
+    </visual>
+    <inertial>
+      <mass value="0.2"/>
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
   <joint name="joint5" type="revolute">
     <parent link="link4"/>
     <child link="link5"/>
-    <origin xyz="0 0 0.12" rpy="0 0 0"/>
+    <origin xyz="0 0 0.15" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
-    <limit lower="-3.14" upper="3.14" effort="10" velocity="2.0"/>
+    <limit lower="-3.14" upper="3.14" effort="5" velocity="2.0"/>
   </joint>
 
-  <link name="link6"/>
+  <!-- ===================== link6 ===================== -->
+  <link name="link6">
+    <visual>
+      <geometry>
+        <cylinder length="0.1" radius="0.02"/>
+      </geometry>
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+      <material name="gray"/>
+    </visual>
+    <inertial>
+      <mass value="0.15"/>
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
   <joint name="joint6" type="revolute">
     <parent link="link5"/>
     <child link="link6"/>
-    <origin xyz="0 0 0.1" rpy="0 0 0"/>
+    <origin xyz="0 0 0.12" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
-    <limit lower="-3.14" upper="3.14" effort="10" velocity="2.0"/>
+    <limit lower="-3.14" upper="3.14" effort="5" velocity="2.0"/>
   </joint>
 
-  <!-- simple visual geometry for each link (small box) -->
-  <material name="gray">
-    <color rgba="0.6 0.6 0.6 1.0"/>
-  </material>
-
-  <link name="link_visual_1">
-    <visual>
-      <geometry><box size="0.05 0.05 0.2"/></geometry>
-      <material name="gray"/>
-    </visual>
-  </link>
-
-  <!-- (We keep visuals simple: robot_state_publisher will still publish frames) -->
 </robot>
 ```
 
@@ -121,27 +209,68 @@ gedit launch/display.launch.py
 Copy the content below and save the file.
 ```python
 from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
+from ament_index_python.packages import get_package_share_directory
 import os
 
 def generate_launch_description():
-    # 获取包路径（这里直接用相对路径，因为包就在 workspace）
-    pkg_share = os.path.join(os.path.dirname(__file__), '..')
+    # 获取包路径
+    pkg_path = get_package_share_directory('robot_description')
+    default_model_path = os.path.join(pkg_path, 'urdf', 'simple_arm.urdf')
+    default_rviz_config_path = os.path.join(pkg_path, 'rviz', 'display.rviz')
 
-    urdf_path = os.path.join(pkg_share, 'urdf', 'simple_arm.urdf')
+    # 声明 launch 参数
+    model_arg = DeclareLaunchArgument(
+        name='model',
+        default_value=default_model_path,
+        description='Absolute path to robot urdf file'
+    )
 
-    with open(urdf_path, 'r') as f:
-        robot_desc = f.read()
+    rviz_arg = DeclareLaunchArgument(
+        name='rvizconfig',
+        default_value=default_rviz_config_path,
+        description='Absolute path to RViz config file'
+    )
 
+    # 读取 URDF 内容
+    with open(default_model_path, 'r') as infp:
+        robot_description_content = infp.read()
+
+    # robot_state_publisher 节点
+    robot_state_publisher_node = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        name='robot_state_publisher',
+        output='screen',
+        parameters=[{'robot_description': robot_description_content}],
+    )
+
+    # joint_state_publisher_gui 节点（可交互关节控制）
+    joint_state_publisher_gui_node = Node(
+        package='joint_state_publisher_gui',
+        executable='joint_state_publisher_gui',
+        name='joint_state_publisher_gui',
+        output='screen'
+    )
+
+    # RViz2 节点
+    rviz_node = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        output='screen',
+        # arguments=['-d', LaunchConfiguration('rvizconfig')],
+    )
+
+    # 返回 LaunchDescription
     return LaunchDescription([
-        # robot_state_publisher 会根据 robot_description 参数发布 TF（link frames）
-        Node(
-            package='robot_state_publisher',
-            executable='robot_state_publisher',
-            name='robot_state_publisher',
-            output='screen',
-            parameters=[{'robot_description': robot_desc}]
-        ),
+        model_arg,
+        rviz_arg,
+        robot_state_publisher_node,
+        joint_state_publisher_gui_node,
+        rviz_node
     ])
 ```
 
@@ -170,6 +299,10 @@ arm_planner
 ```
 
 We need to write some nodes to realize more specific functions.
+
+**Basic Logic**
+
+*[SendGoal] → [Planning Node] → [FakeController] → [RViz Show]*
 
 ### joint_planner.py
 ```bash
@@ -421,6 +554,7 @@ from sensor_msgs.msg import JointState
 from trajectory_msgs.msg import JointTrajectory
 import threading
 
+# Define a ros2 node
 class FakeController(Node):
     def __init__(self):
         super().__init__('fake_controller')
@@ -433,6 +567,7 @@ class FakeController(Node):
         self.positions = []
         self.lock = threading.Lock()
 
+        # Create the subscription and publisher
         self.create_subscription(JointTrajectory, self.trajectory_topic, self.traj_cb, 10)
         self.pub = self.create_publisher(JointState, self.joint_state_topic, 10)
 
@@ -440,6 +575,7 @@ class FakeController(Node):
         self.create_timer(0.05, self.publish_state)
         self.get_logger().info('FakeController ready')
 
+    # Receive the trajectory callback
     def traj_cb(self, traj: JointTrajectory):
         with self.lock:
             if not traj.joint_names:
@@ -452,6 +588,7 @@ class FakeController(Node):
                 self.positions = [0.0] * len(self.joint_names)
             self.get_logger().info(f'Received trajectory for joints: {self.joint_names}')
 
+    # Publish the state periodicly
     def publish_state(self):
         with self.lock:
             if not self.joint_names:
@@ -496,9 +633,11 @@ import time
 class SendGoal(Node):
     def __init__(self):
         super().__init__('send_goal_example')
+        # Design a Publisher
         self.pub = self.create_publisher(JointState, '/arm_target', 10)
         self.get_logger().info('SendGoal ready')
 
+    # Design a JointState message 
     def send_goal(self, names, positions):
         msg = JointState()
         msg.header.stamp = self.get_clock().now().to_msg()
@@ -522,9 +661,216 @@ def main(args=None):
 
 ## Prepare for running
 
-```bash
+### arm_planner/setup.py
 
+Edit arm_planner/setup.py:
+```bash
+cd ~/ros2_ws/src/arm_planner
+gedit setup.py
 ```
 
+Change the content to:
+```python
+from setuptools import setup
+# New add
+import os
+from glob import glob
+
+package_name = 'arm_planner'
+
+setup(
+    name=package_name,
+    version='0.0.0',
+    # packages=find_packages(exclude=['test']),
+    packages=[package_name],
+
+    data_files=[
+        ('share/ament_index/resource_index/packages',
+            ['resource/' + package_name]),
+        ('share/' + package_name, ['package.xml']),
+    ],
+
+    install_requires=['setuptools'],
+    zip_safe=True,
+
+    # This part can change to your name
+    maintainer='Yiwei',
+    maintainer_email='yiwei@example.com',
+    description='Simple joint planner demo',
+    license='Apache License 2.0',
+
+    entry_points={
+        'console_scripts': [
+            'joint_planner = arm_planner.joint_planner:main',
+            'fake_controller = arm_planner.fake_controller:main',
+            'send_goal_example = arm_planner.send_goal_example:main',
+        ],
+    },
+)
+```
+entry_points 部分：定义可以直接运行的节点。告诉 setuptools：当我执行命令 ros2 run arm_planner joint_planner 时，实际上是去运行 arm_planner/joint_planner.py 文件中的 main() 函数。
+
+| 命令                                       | 实际调用文件                             | 运行函数     |
+| ---------------------------------------- | ---------------------------------- | -------- |
+| `ros2 run arm_planner joint_planner`     | `arm_planner/joint_planner.py`     | `main()` |
+| `ros2 run arm_planner fake_controller`   | `arm_planner/fake_controller.py`   | `main()` |
+| `ros2 run arm_planner send_goal_example` | `arm_planner/send_goal_example.py` | `main()` |
+
+这样，我们就不需要手动运行 python 文件了。整个系统可以统一通过 ROS2 的机制启动。
 
 
+### robot_description/setup.py
+
+```bash
+cd ~/ros2_ws/src/robot_description
+gedit setup.py
+```
+
+Change the content to:
+```python
+from setuptools import setup
+import os
+from glob import glob
+
+package_name = 'robot_description'
+
+setup(
+    name=package_name,
+    version='0.0.0',
+    packages=[package_name] if os.path.isdir(package_name) else [],
+    data_files=[
+        (os.path.join('share', package_name), ['package.xml']),
+        (os.path.join('share', package_name, 'urdf'), glob('urdf/*.urdf')),
+        (os.path.join('share', package_name, 'launch'), glob('launch/*.launch.py')),
+    ],
+    install_requires=['setuptools'],
+    zip_safe=True,
+    maintainer='Yiwei',
+    maintainer_email='yiwei@example.com',
+    description='Robot description package (URDF)',
+    license='Apache License 2.0',
+    entry_points={
+        'console_scripts': [],
+    },
+)
+```
+
+### Workspace Building
+
+```bash
+cd ~/ros2_ws
+colcon build --symlink-install
+```
+
+colcon build 会扫描 src/ 下的包并构建（Python 包基本是把脚本安装到 install/）。
+
+--symlink-install 让编辑的源文件即时生效（适合开发阶段）。
+
+The output shows as below:
+
+
+构建完成后，**一定要 source 环境**：
+```bash
+source install/setup.bash
+```
+
+## RUN
+
+We run this project with three terminals.
+
+### Terminal A: *robot_state_publisher* to show URDF
+
+```bash
+# 确保 sourced
+source ~/ros2_ws/install/setup.bash
+
+# 启动 URDF 的 launch（它会运行 robot_state_publisher）
+ros2 launch robot_description display.launch.py
+```
+
+打开 RViz2（另一个终端或同一终端新标签）：
+```bash
+rviz2
+```
+在 RViz 中：
+
+在左侧「Displays」里点击「Add」→ 选择「TF」来显示坐标系。
+
+也可以选择 RobotModel，如果 URDF 里有可视化元素会显示模型（简单 URDF 可能只有 frames）。
+
+现在如果你看不到 TF，说明 /joint_states 还没发布（这是正常的，下一步会发布）。
+
+
+### Terminal B: *fake_controller* to show publish joint_states
+
+```bash
+source ~/ros2_ws/install/setup.bash
+ros2 run arm_planner fake_controller
+```
+
+fake_controller 启动后会等待接收 JointTrajectory（目前没收到所以不会发布 joint_states）。但当收到 trajectory 后会发布 joint_states。
+
+
+### Terminal C: *joint_planner* to plan the trajectory
+
+```bash
+source ~/ros2_ws/install/setup.bash
+ros2 run arm_planner joint_planner
+```
+
+joint_planner 等待 /joint_states（当前）以及 /arm_target（目标）。因为现在还没 /arm_target，可以手动发送目标。
+
+### Terminal D: *send_goal_example* to simulate the target sending process
+
+```bash
+source ~/ros2_ws/install/setup.bash
+ros2 run arm_planner send_goal_example
+```
+
+这会把 /arm_target 发出；joint_planner 会收到并发布 JointTrajectory 到 /arm_controller/command（默认），而 fake_controller 订阅该 topic（我们在 fake_controller 中设置为 /arm_controller/command），收到后将发布最终 /joint_states，这样 robot_state_publisher 就能看到 joint angles 并发布 TF，RViz 将显示机器人关节的新位姿。
+
+### Verification
+
+List the total topic:
+```bash
+ros2 topic list
+```
+Outcome shows like this:
+```bash
+/arm_controller/command
+/arm_target
+/clicked_point
+/goal_pose
+/initialpose
+/joint_states
+/parameter_events
+/robot_description
+/rosout
+/tf
+/tf_static
+```
+
+Show joint_states content:
+```bash
+ros2 topic echo /joint_states
+```
+
+Show trajectory:
+```bash
+ros2 topic echo /arm_controller/command
+```
+
+Show node list:
+```bash
+ros2 node list
+```
+
+Outcome shows like this:
+```bash
+/fake_controller
+/joint_planner
+/joint_state_publisher_gui
+/robot_state_publisher
+/rviz2
+/transform_listener_impl_5def7e8b8080
+```
