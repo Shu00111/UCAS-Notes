@@ -132,6 +132,10 @@ wget http://fishros.com/install -O fishros && bash fishros
 ```bash
 rosdepc update
 ```
+source环境变量：
+```bash
+source /opt/ros/humble/setup.bash
+```
 
 到此为止，ros基本功能均完成安装，测试一下。在ubuntu终端，输入命令：
 ```bash
